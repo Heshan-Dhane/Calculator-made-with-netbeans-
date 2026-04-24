@@ -1,0 +1,332 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package model;
+
+/**
+ *
+ * @author Lenovo
+ */
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+public class Calculator extends JFrame implements ActionListener {
+
+    public Calculator() {
+        setAppIcon();
+        initComponents();
+    }
+
+    private void setAppIcon() {
+        try {
+            ImageIcon icon = new ImageIcon("src/img/calculator.png");
+            this.setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.out.println("Icon not found,using default");
+        }
+
+    }
+    JTextField screen;
+    double num1 = 0, num2 = 0, result = 0;
+    char operator;
+
+    private void initComponents() {
+        this.setSize(400, 450);
+        this.setTitle("My Calculator");
+        JLabel headerLabel = new JLabel("Standard Calculator");
+        headerLabel.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+        headerLabel.setForeground(new Color(50, 50, 50));
+        headerLabel.setBorder(BorderFactory.createEmptyBorder(10, 15, 0, 0));
+
+        //calculator-Design-Start
+        //Screen-Start
+        screen = new JTextField("0");
+        screen.setFont(new Font("Segoe UI", Font.PLAIN, 42));
+        screen.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(230, 230, 230)),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
+        screen.setHorizontalAlignment(JTextField.RIGHT);
+        screen.setBackground(Color.WHITE);
+        screen.setEditable(true);
+        screen.setFocusable(false);
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(Color.WHITE);
+        topPanel.add(headerLabel, BorderLayout.NORTH);
+        topPanel.add(screen, BorderLayout.CENTER);
+        this.add(topPanel, BorderLayout.NORTH);
+
+        //screen-end
+        //buttons-start
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setBackground(new Color(243, 243, 243));
+        buttonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(2, 2, 2, 2);
+
+        String[] buttonLables = {"%", "CE", "C", "\u232B",
+            "1/x", "x\u00B2", "\u221Ax", "\u00F7",
+            "7", "8", "9", "X",
+            "4", "5", "6", "-",
+            "1", "2", "3", "+",
+            "\u00B1", "0", ".", "="
+        };
+        int position = 0;
+        int rowCount = 6;
+        int columnCount = 4;
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
+                if (position < buttonLables.length) {
+                    JButton btn = new JButton(buttonLables[position]);
+                    btn.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 18));
+                    btn.setFocusPainted(false);
+                    btn.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255)));
+
+                    if (buttonLables[position].equals("=")) {
+                        btn.setBackground(new Color(0, 103, 192));
+                        btn.setForeground(Color.WHITE);
+
+                    } else {
+                        btn.setBackground(Color.white);
+                    }
+                    btn.addActionListener(this);
+                    gbc.gridx = col;
+                    gbc.gridy = row;
+                    buttonPanel.add(btn, gbc);
+                    position++;
+                }
+            }
+        }
+        this.add(buttonPanel, BorderLayout.CENTER);
+
+        //buttons-end
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    public static void main(String[] args) {
+        FlatIntelliJLaf.setup();
+        new Calculator().setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        String currentValue = screen.getText();
+        if ("0123456789".contains(command)) {
+            if (currentValue.equals("0") || currentValue.equals("Error")) {
+                screen.setText(command);
+            } else {
+                screen.setText(currentValue + command);
+            }
+            return;
+        }
+        switch (command) {
+            case "0":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "1":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "2":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "3":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "4":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "5":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "6":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "7":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "8":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case "9":
+                screen.setText(screen.getText() + command);
+                break;
+
+            case ".":
+                if (!currentValue.contains(".")) {
+                    screen.setText(currentValue + ".");
+                }
+                break;
+
+            // operator
+            case "X": {
+                if (currentValue.length() > 0) {
+                    num1 = Double.parseDouble(currentValue);
+                    operator = command.charAt(0);
+                    screen.setText("");
+                }
+                break;
+
+            }
+
+            case "+": {
+
+                if (currentValue.length() > 0) {
+                    num1 = Double.parseDouble(currentValue);
+                    result = result + num1;
+                    operator = '+';
+                    screen.setText("");
+                }
+                break;
+            }
+            case "-": { //substaction
+
+                if (currentValue.length() > 0) {
+                    num1 = Double.parseDouble(currentValue);
+                    result = result - num1;
+                    operator = '-';
+                    screen.setText("");
+                }
+                break;
+
+            }
+            case "\u221Ax": // Square Root
+                if (currentValue.length() > 0) {
+                    result = Math.sqrt(Double.parseDouble(currentValue));
+                    screen.setText(String.valueOf(result));
+                }
+                break;
+
+            case "1/x": // Reciprocal
+                if (currentValue.length() > 0) {
+                    double val = Double.parseDouble(currentValue);
+                    if (val != 0) {
+                        result = 1 / val;
+                        screen.setText(String.valueOf(result));
+                    } else {
+                        screen.setText("Error");
+                    }
+                }
+                break;
+
+            case "x\u00B2": // Square
+                if (currentValue.length() > 0) {
+                    double value = Double.parseDouble(currentValue);
+                    result = value * value;
+                    screen.setText(String.valueOf(result));
+                }
+                break;
+
+            case "%":
+                if (currentValue.length() > 0) {
+                    result = Double.parseDouble(currentValue) / 100;
+                    screen.setText(String.valueOf(result));
+                }
+                break;
+
+            case "\u00B1":
+                if (currentValue.length() > 0) {
+                    result = Double.parseDouble(currentValue) * -1;
+                    screen.setText(String.valueOf(result));
+                }
+                break;
+
+            case "\u00F7": {// Division button
+
+                if (currentValue.length() > 0) {
+                    num1 = Double.parseDouble(currentValue);
+                    operator = command.charAt(0);
+                    screen.setText("");
+                }
+                break;
+            }
+            // clear
+
+            case "C":
+                num1 = 0;
+                num2 = 0;
+                result = 0;
+                operator = '\0';
+                screen.setText("0");
+                break;
+
+            case "CE":
+                screen.setText("0");
+                break;
+
+            case "\u232B": // Backspace button
+                if (currentValue.length() > 0) {
+                    screen.setText(currentValue.substring(0, currentValue.length() - 1));
+                }else{
+                    screen.setText("0");
+                }
+                break;
+
+            case "=":
+                if (currentValue.length() > 0 && operator != '\0') {
+                    num2 = Double.parseDouble(currentValue);
+                    switch (operator) {
+                        case '+':
+                            result = num1 + num2;
+                            break;
+                        case '-':
+                            result = num1 - num2;
+                            break;
+                        case 'X':
+                            result = num1 * num2;
+                            break;
+                        case '\u00F7':
+                            if (num2 != 0) {
+                                result = num1 / num2;
+                            } else {
+                                screen.setText("Error");
+                                return;
+                            }
+                            break;
+                    }
+                    screen.setText(String.valueOf(result));
+                    operator = '\0';
+                }
+                break;
+
+            // if (command.equals("CE") || command.equals("C")) {
+            //}
+            //      screen.setText("");
+//
+            // } else if (command.equals("=")) {
+            // num2 = Double.parseDouble(screen.getText());
+            //  }
+        }
+
+    }
+}
